@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header" style="margin-bottom: 2rem;">
+    <h1>Admin Dashboard</h1>
+    <p style="color: var(--text-secondary);">Manage exams, questions, and students.</p>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 2rem;">
+    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+        <h3 style="color: var(--primary-color);">{{ users_count }}</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Total Students</p>
+    </div>
+    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+        <h3 style="color: var(--primary-color);">{{ exams_count }}</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Total Exams</p>
+    </div>
+    <div class="glass-card" style="text-align: center; padding: 1.5rem;">
+        <h3 style="color: var(--primary-color);">Active</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">System Status</p>
+    </div>
+</div>
+
+<div style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+    <a href="{{ url_for('admin_attendance') }}" class="btn btn-outline" style="width: 100%; text-align: center;">View
+        Attendance Report</a>
+</div>
+
+<div class="grid">
+    <!-- Add Exam -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 1.5rem;">Create New Exam</h3>
+        <form action="{{ url_for('add_exam') }}" method="POST">
+            <div class="form-group">
+                <label>Exam Name</label>
+                <input type="text" name="exam_name" class="form-control" required placeholder="Python Basics">
+            </div>
+            <div class="form-group">
+                <label>Duration (Minutes)</label>
+                <input type="number" name="duration" class="form-control" required placeholder="30">
+            </div>
+            <div class="form-group">
+                <label>Total Marks</label>
+                <input type="number" name="total_marks" class="form-control" required placeholder="100">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Add Exam</button>
+        </form>
+    </div>
+
+    <!-- Add Question -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 1.5rem;">Add Question</h3>
+        <form action="{{ url_for('add_question') }}" method="POST">
+            <div class="form-group">
+                <label>Select Exam</label>
+                <select name="exam_id" class="form-control" required>
+                    {% for exam in exams %}
+                    <option value="{{ exam.exam_id }}">{{ exam.exam_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Question</label>
+                <input type="text" name="question" class="form-control" required>
+            </div>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <input type="text" name="option_a" class="form-control" placeholder="A" required>
+                <input type="text" name="option_b" class="form-control" placeholder="B" required>
+                <input type="text" name="option_c" class="form-control" placeholder="C" required>
+                <input type="text" name="option_d" class="form-control" placeholder="D" required>
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
+                <label>Correct Answer (a/b/c/d)</label>
+                <select name="correct_answer" class="form-control" required>
+                    <option value="a">Option A</option>
+                    <option value="b">Option B</option>
+                    <option value="c">Option C</option>
+                    <option value="d">Option D</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Add Question</button>
+        </form>
+    </div>
+</div>
+
+<div class="glass-card" style="margin-top: 2rem;">
+    <h3 style="margin-bottom: 1rem;">Existing Exams</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Exam ID</th>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Total Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in exams %}
+            <tr>
+                <td>#{{ exam.exam_id }}</td>
+                <td>{{ exam.exam_name }}</td>
+                <td>{{ exam.duration }} mins</td>
+                <td>{{ exam.total_marks }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

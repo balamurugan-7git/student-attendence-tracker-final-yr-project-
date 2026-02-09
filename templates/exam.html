@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>{{ exam.exam_name }}</h2>
+        <div id="timer" class="timer">00:00</div>
+    </div>
+
+    <form id="examForm" action="{{ url_for('submit_exam') }}" method="POST">
+        <input type="hidden" name="exam_id" value="{{ exam.exam_id }}">
+
+        {% for q in questions %}
+        <div class="question-item">
+            <p style="font-weight: 600; margin-bottom: 1rem;">{{ loop.index }}. {{ q.question }}</p>
+            <div class="options-grid">
+                <label class="option-label">
+                    <input type="radio" name="question_{{ q.question_id }}" value="a" required>
+                    <span class="option-text">{{ q.option_a }}</span>
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="question_{{ q.question_id }}" value="b">
+                    <span class="option-text">{{ q.option_b }}</span>
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="question_{{ q.question_id }}" value="c">
+                    <span class="option-text">{{ q.option_c }}</span>
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="question_{{ q.question_id }}" value="d">
+                    <span class="option-text">{{ q.option_d }}</span>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary" style="margin-top: 2rem; width: 200px;">Submit Exam</button>
+    </form>
+</div>
+
+<script>
+    // Timer Logic
+    let duration = {{ exam.duration }} * 60; // in seconds
+    const timerDisplay = document.getElementById('timer');
+    const form = document.getElementById('examForm');
+
+    const countdown = setInterval(() => {
+        let minutes = Math.floor(duration / 60);
+        let seconds = duration % 60;
+
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (duration <= 0) {
+            clearInterval(countdown);
+            alert("Time's up! Your exam will be submitted automatically.");
+            form.submit();
+        }
+        duration--;
+    }, 1000);
+</script>
+{% endblock %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Certificate of Achievement</title>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #0f172a;
+            color: white;
+        }
+
+        .certificate {
+            width: 800px;
+            padding: 50px;
+            text-align: center;
+            border: 15px solid #6366f1;
+            background: #1e1b4b;
+            position: relative;
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.5);
+        }
+
+        .certificate::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid #6366f1;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #6366f1;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+
+        .name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-decoration: underline;
+            margin: 30px 0;
+        }
+
+        .details {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .stamp {
+            width: 100px;
+            height: 100px;
+            border: 5px double #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-15deg);
+            font-weight: 800;
+            color: #6366f1;
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            border-style: dotted;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            .certificate {
+                border: 10px solid #000;
+                box-shadow: none;
+            }
+
+            .certificate::before {
+                border: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="certificate">
+        <h1>CERTIFICATE</h1>
+        <p style="letter-spacing: 5px; margin-top: 10px;">OF ACHIEVEMENT</p>
+        <h2>This is to certify that</h2>
+        <div class="name">{{ name.upper() }}</div>
+        <p class="details">has successfully completed the examination</p>
+        <h3>{{ exam.exam_name }}</h3>
+        <p class="details">with an outstanding performance and secured a score of</p>
+        <div class="score">{{ score }} / {{ exam.total_marks }}</div>
+
+        <div class="footer">
+            <p>Date: <span id="currentDate"></span></p>
+            <p>Issued by: ExamPro Platform</p>
+        </div>
+        <div class="stamp">OFFICIAL</div>
+    </div>
+    <script>
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+
+</html>

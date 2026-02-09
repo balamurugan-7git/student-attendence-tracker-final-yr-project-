@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header"
+    style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1>Attendance Report</h1>
+        <p style="color: var(--text-secondary);">Tracking all exam attempts and submissions.</p>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+</div>
+
+<div class="glass-card">
+    {% if attendance %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Exam Attempted</th>
+                <th>Status</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance %}
+            <tr>
+                <td style="font-size: 0.8rem;">{{ record.date }}</td>
+                <td><strong>{{ record.student_name }}</strong></td>
+                <td style="color: var(--text-secondary);">{{ record.email }}</td>
+                <td>{{ record.exam_name }}</td>
+                <td>
+                    <span
+                        style="color: var(--success); background: rgba(16, 185, 129, 0.1); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
+                        Completed
+                    </span>
+                </td>
+                <td>{{ record.score }} / {{ record.total_marks }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p style="color: var(--text-secondary);">No attendance records found. Once students complete an exam, they will
+            appear here.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-container glass-card" style="text-align: center;">
+    <h1 style="color: var(--primary-color); font-size: 3rem; margin-bottom: 1rem;">🎉</h1>
+    <h2>Exam Completed!</h2>
+    <p style="color: var(--text-secondary); margin: 1rem 0;">You have successfully completed the <strong>{{
+            exam.exam_name }}</strong>.</p>
+
+    <div style="background: rgba(99, 102, 241, 0.1); padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+        <p style="font-size: 1.2rem; color: var(--text-secondary);">Your Score</p>
+        <h1 style="font-size: 4rem; color: var(--primary-color);">{{ score }}</h1>
+    </div>
+
+    <div style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+        <a href="{{ url_for('certificate', exam_id=exam.exam_id, score=score) }}" target="_blank"
+            class="btn btn-primary">Download Certificate</a>
+    </div>
+</div>
+{% endblock %}
